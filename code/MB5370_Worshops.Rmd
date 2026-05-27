@@ -1,0 +1,449 @@
+---
+title: "MB5370"
+author: "Darius HUISMAN"
+output: html_document
+date: "2026-05-20"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Workshop 1
+
+```{r}
+source("../MB5370/MB5370_W1.R")
+```
+
+
+```{r Workshop 1}
+#----------------------------------------------#
+#MB5370: Introduction to programming
+#Darius HUISMAN
+# May 2026
+
+#Workspace: 
+# ~/Desktop/MB5370/MB5370_W1.R
+#----------------------------------------------#
+
+#----------------------------------------------#
+# Workshop 01. Introduction ####
+
+# Getting started ####
+# This section introduces us to R by using it as a simple calculator.
+
+# Variables and Assignment ####
+# This section focuses on understanding how data is stored in R and why that matters.
+
+age <- 25
+first_name <- 'Bill'
+
+Age <- 41 # cases matter
+
+  # Exercise ####
+a <- 15 + 25.1 + 20.25
+b <- 26
+c <- a + b
+
+# Functions ####
+
+years_old <- 25.7
+round(years_old) # rounds up
+floor(years_old) # rounds down
+
+years_old <- 25.765
+round (years_old, 2) # comma after the object to specify argument
+
+?round # go to help
+
+args(round) # use args in the Console
+
+  # Exercise 
+my_age <- 26
+my_name <- 'Darius'
+
+?paste # go to help
+
+paste(my_name, "is", my_age, "years old.")
+
+# Debugging ####
+
+# Misconceptions
+# variables in programs do not work the same way as they do in spreadsheets
+grade <- 55
+total <- grade + 10
+print (total)
+grade <- 90
+print (total) # value of total in a spreadsheet will be 100, but in programming a variable holds the value it was assigned (65)
+total <- grade + 10
+print (total) # executed in the way it was defined
+
+# What will this code do?
+p <- 2
+z <- 5
+out <- p * z  # What should the value of out be?
+print (out) # What is the value of out? Is it the same as expected?
+
+# Testing
+x <- 1
+is.character(x)
+is.numeric (x)
+
+  # Exercise 
+#my_quiz <- c("uno",
+#             "dos",
+#             "tres",
+#             "cuatro" # missing a ",", causing an error
+#             "cinco")
+#print (my_quis) # syntax error, should be "my_quiz"
+#str(my_quiz)
+#len(my_quiz) # wrong function / function does not exist
+
+# errors fixed
+my_quiz <- c("uno",
+             "dos",
+             "tres",
+             "cuatro", # corrected
+             "cinco")
+print (my_quiz) # corrected 
+str(my_quiz)
+length(my_quiz) # corrected
+
+# Data types ####
+
+  #Exercise
+#numeric
+my_numeric_variable = 4.2 
+class(my_numeric_variable)
+
+#character
+my_name <- 'Darius'
+class(my_name)
+
+#integer
+int <- 1L
+class(int)
+
+#logical
+t <- TRUE
+class(t)
+
+# Data structure ####
+
+# Vector
+y <- c(1, 2, 3)
+z <- c("Sarah", "Tracy", "Jon")
+
+  # Exrecise
+class(x)
+class(y)
+## both are numeric
+
+# List
+x <- list(1, "a", TRUE)
+x
+x[[2]]
+
+# Data frame and tibbles
+my_data_frame <- data_frame(no = c(1,2,3), name = c("Tracey", "John", "Pete"), "True or False" = c(TRUE, FALSE, TRUE))
+my_data_frame
+str (my_data_frame)
+
+my_data_frame$no = as.factor(my_data_frame$no)
+str (my_data_frame)
+
+# Packages and Libraries ####
+
+# install.packages('tidyverse') # download and install
+library(tidyverse) # load into current workspace
+
+# install.packages ('ggplot2') # comment out so it doesn’t run again
+
+# install.packages("ggplot","tidyr", "earthtones","redlistr","dplyr" ,"terra")
+
+library (ggplot2)
+?ggplot2
+
+# Coding best practices ####
+
+# load packages
+library(ggplot2)
+library(tidyr)
+library(tidyverse)
+
+  # Class discussion
+    # 1. Read the .csv dataset into R using the 'read_csv' function
+    # 2. Check the data file donwloaded (make sure the file has been read correctly and spot potential data that could cause problem)
+    # 3. Analyse the abundance of each species
+    # 4. PLot the species abundance of the species of you want 
+```
+
+
+# Workshop 2
+This workshop aims to develop and master our skills in data visualisation using ggplot2
+
+## 2.16 Load packages and data
+
+```{r Packages}
+install.packages("tidyverse")
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r mpg data}
+mpg
+```
+
+## 2.17 Create your first ggplot
+
+```{r first ggplot}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+
+## 2.18 Understand the ‘grammar of graphics’
+### 2.18.1 Graphing template
+
+```{r Graphing template}
+#ggplot(data = mpg)
+```
+
+### 2.18.2 Aesthetic mappings
+
+```{r Aesthetic mappings}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, colour = class))
+
+#change point size by class
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, size = class))
+#> Warning: Using size for a discrete variable is not advised.
+
+#change point transparency by class
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, alpha = class))
+
+#change point shape by class
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, shape = class))
+
+# all points blue
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+
+#distinct displ data < 5
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = displ < 5))
+```
+
+## 2.19 Troubleshooting
+
+```{r Troubleshooting}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) 
+# the + should be on top line
+```
+
+## 2.20 Facet and panel plots
+
+```{r Facet and panel plots}
+# facet_wrap
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~ class, nrow = 2)
+
+# facet_grid
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(drv ~ cyl)
+
+#using a .
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(. ~ cyl)
+# it does not make a plot for each hwy (compared to previous plot)
+```
+Read ?facet_wrap. What does nrow do? What does ncol do? What other options control the layout of the individual panels? 
+```{r}
+?facet_wrap
+```
+nrow, ncol	= number of rows and columns you want in the grid
+
+## 2.21 Fitting simple lines
+
+```{r Fitting simple lines}
+#display data as point
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+
+#display same data as smooth line through the points
+ggplot(data = mpg) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy))
+
+#with different dashes for drv
+ggplot(data = mpg) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv))
+
+#use group() argument
+ggplot(data = mpg) +
+  geom_smooth(mapping = aes(x = displ, y = hwy, group = drv))
+
+#Change the color of each line based on drv value
+ggplot(data = mpg) +
+  geom_smooth(
+    mapping = aes(x = displ, y = hwy, color = drv),
+    show.legend = FALSE,
+  )
+
+#plot multiple geom() at the same time
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  geom_smooth(mapping = aes(x = displ, y = hwy))
+
+#more efficent code
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth()
+
+#style the points by themself
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point(mapping = aes(color = class)) + 
+  geom_smooth()
+
+#use a filter (class = "subcompact") to select a subset of the data and plot only that subset
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point(mapping = aes(color = class)) + 
+  geom_smooth(data = filter(mpg, class == "subcompact"), se = FALSE)
+```
+
+## Exercise
+1.What geom would you use to draw a line chart? A boxplot? A histogram? An area chart?
+  geom_line()
+  geom_boxplot()
+  geomp_histogram()
+  geom_area()
+
+2.Run this code in your head and predict what the output will look like. Then, run the code in R and check your predictions. Will these two graphs look different? Why/why not?
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth()
+
+ggplot() + 
+  geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))
+
+the two plots will provide with the same output. They will display the data with both points and smooth information at the smae time
+
+```{r Exercise}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth()
+
+ggplot() + 
+  geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))
+```
+
+## 2.22 Transformations and Stats
+
+### 2.22.1 Plotting statistics
+
+```{r Plotting statistics}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut))
+
+#recreate the previous plot using stat_count() instead of geom_bar()
+ggplot(data = diamonds) + 
+  stat_count(mapping = aes(x = cut))
+```
+
+### 2.22.2 Overriding defaults in ggplot2
+
+```{r Overriding defaults in ggplot2}
+demo <- tribble(
+  ~cut,         ~freq,
+  "Fair",       1610,
+  "Good",       4906,
+  "Very Good",  12082,
+  "Premium",    13791,
+  "Ideal",      21551
+)
+demo
+
+ggplot(data = demo) +
+  geom_bar(mapping = aes(x = cut, y = freq), stat = "identity")
+
+#override a default mapping from transformed variables to aesthetics
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, y = stat(prop), group = 1))
+#> Warning: `stat(prop)` was deprecated in ggplot2 3.4.0.
+```
+
+### 2.22.3 Plotting statistical details
+
+```{r Plotting statistical details}
+ggplot(data = diamonds) + 
+  stat_summary(
+    mapping = aes(x = cut, y = depth),
+    fun.min = min,
+    fun.max = max,
+    fun = median
+  )
+```
+
+## 2.23 Aesthetic adjustments
+
+```{r Aesthetic adjustments}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, colour = cut))
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = cut))
+
+#colour by another variable like clarity
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity))
+
+#use position = "identity"
+#To alter transparency (alpha)
+ggplot(data = diamonds, mapping = aes(x = cut, fill = clarity)) + 
+  geom_bar(alpha = 1/5, position = "identity")
+
+#To color the bar outlines with no fill color
+ggplot(data = diamonds, mapping = aes(x = cut, colour = clarity)) +
+  geom_bar(fill = NA, position = "identity")
+
+#position = "fill" 
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill")
+
+#position = "dodge"
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge")
+
+#position = "jitter"
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
