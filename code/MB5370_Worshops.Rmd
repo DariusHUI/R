@@ -426,24 +426,256 @@ ggplot(data = mpg) +
 ```
 
 
+# Workshop 4
+
+The Developer's Toolbox & AI
+
+# 4.4 chattr (Conversational Workspace Engine)
+
+```{r chattr}
+#install.packages("ellmer")
+# install.packages("chattr")
+```
+# Exercise: Prompting for Context
+```{r Exercise: Prompting for Context}
+library(ggplot2)
+
+data(iris)
+
+ggplot(iris, aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
+  geom_point()
+```
+
+# 4.3 Conditional Logic - filtering your data
+
+Base R: if and else
+```{r if_else}
+# Simple Example: Checking Sea Surface Temperature (SST)
+sst <- 30.2
+
+if (sst > 29.5) {
+  print("Warning: Marine heatwave threshold exceeded!")
+} else {
+  print("SST remains within baseline parameters.")
+}
+```
 
 
+Tidyverse Alternative: Vectorised Conditionals (dplyr)
+
+if_else()
+
+```{r if_else tidyverse}
+# Load tidyverse (if not already loaded)
+library(tidyverse)
+
+# Sample coral data
+coral_monitoring <- tibble(
+  site = c("Site_A", "Site_B", "Site_C"),
+  depth_m = c(12, 35, 8)
+)
+
+# Classify depth using if_else
+coral_monitoring <- coral_monitoring %>% 
+  mutate(zone = if_else(depth_m > 30, "Deep Reef", "Shallow Reef"))
+```
 
 
+what mutate() does?
+  The mutate() function, from the dplyr package, is used to add new variables (columns) to a data frame or modify existing ones. It always   operates on a data frame and returns a new data frame with the added or modified columns, while preserving existing columns.
+
+what abou the  %>% symbol?
+  The %>% symbol is known as the pipe operator. It comes from the magrittr package, which is loaded as part of the tidyverse.
+  Its primary purpose is to pass the result of the expression on its left-hand side as the first argument to the function on its right-hand side. This allows you to chain multiple operations together in a more readable and sequential manner, making your code flow from left to right, rather than nesting functions inside each other.
 
 
+case_when()
+
+```{r case_when}
+coral_monitoring <- coral_monitoring %>% 
+  mutate(reef_category = case_when(
+    depth_m < 10  ~ "Lagoon / Flats",
+    depth_m <= 30 ~ "Crest / Slope",
+    depth_m > 30  ~ "Mesophotic / Deep",
+    TRUE          ~ "Unclassified" # Catch-all remainder
+  ))
+```
+
+task
+```{r task case_when}
+library(dplyr)
+
+marine_stations <- tibble(
+  salinity = c(35, 28, 32, 12)
+) %>%
+  mutate(
+    environment_type = case_when(
+      salinity < 15 ~ "Estuarine",
+      salinity >= 15 & salinity <= 30 ~ "Brackish",
+      salinity > 30 ~ "Marine",
+      TRUE ~ NA_character_ # Optional: handles any other cases not explicitly covered
+    )
+  )
+
+print(marine_stations)
+```
+
+# 4.4 Automation — Iterating Efficiently
+
+Base R: for-loops
+```{r for-loops}
+# Classic loop anatomy
+for (year in 2020:2024) {
+  print(paste("Processing climate data for year:", year))
+}
+
+# Loop across index sequences
+transect_lengths <- c(50, 100, 25, 75)
+
+for (i in seq_along(transect_lengths)) {
+  print(paste("Transect number", i, "measures", transect_lengths[i], "metres."))
+}
+```
+
+Tidyverse Alternative: Functional Programming (purrr)
+  Comparison Example: Calculating Square Roots of Site Vectors
+  Using a standard for-loop:
+```{r std for-loop}
+site_areas <- c(144, 400, 625)
+results <- numeric(length(site_areas)) # Must build an empty container first
+
+for(i in seq_along(site_areas)) {
+  results[i] <- sqrt(site_areas[i])
+}
+```
+
+  Using the purrr equivalent:
+```{r purr equivalent}
+library(purrr)
+# Map directly and define your expected output type explicitly
+mapped_results <- map_dbl(site_areas, sqrt)
+
+```
 
 
+Iterating Across Complex Groups
+```{r iterate}
+# Iterate a summary function over split lists of data
+iris %>% 
+  split(.$Species) %>% 
+  map(~summary(.x))
+```
+
+Task using chattr: 
+```{r task purr}
+library(purrr) # For map_dbl()
+
+# List of fish count data
+fish_counts_list <- list(
+  site_a = c(10, 12, 8, 15, 11),
+  site_b = c(25, 20, 22, 18),
+  site_c = c(5, 7, 6)
+)
+
+# Using a for-loop
+mean_counts_for_loop <- vector("numeric", length = length(fish_counts_list))
+names(mean_counts_for_loop) <- names(fish_counts_list)
+
+for (i in seq_along(fish_counts_list)) {
+  mean_counts_for_loop[i] <- mean(fish_counts_list[[i]])
+}
+
+print("Mean counts (for-loop):")
+print(mean_counts_for_loop)
+
+# Using purrr's map_dbl()
+mean_counts_map_dbl <- map_dbl(fish_counts_list, mean)
+
+print("Mean counts (map_dbl):")
+print(mean_counts_map_dbl)
+```
+
+# 4.5 Writing custom functions
+
+Function Construction Blueprint
+```{r}
+# Function Definition
+calculate_coral_mortality <- function(initial_count, surviving_count) {
+  
+  # Logic safety switch using our conditional tools!
+  if (initial_count <= 0) {
+    stop("Initial count must be greater than zero.")
+  }
+  
+  mortality_rate <- (initial_count - surviving_count) / initial_count
+  return(mortality_rate)
+}
+
+# Utilizing your custom function
+calculate_coral_mortality(initial_count = 120, surviving_count = 84)
+```
+
+Student Exercise 4: Custom Function Construction Task
+```{r Ex custom fctn}
+#create a function to convert temperature in C° to F°
+convert_temp_c_to_f <- function(temp_C){
+  #make a safety check to prevent temperatures below absolute zero
+  if (temp_C < -273.15){
+    stop("Entered value is below absolute zero (-273.15 degrees Celsius)")
+  }
+  temp_F <- (temp_C * 9/5) + 32
+  return(temp_F)
+}
+#test function
+convert_temp_c_to_f(temp_C = 25)
+convert_temp_c_to_f(temp_C = -300)
+```
+
+# 4.6 Advanced Scripting Extension Challenges
+
+Challenge 1: Nested Multi-Vector Iteration
+```{r C1 Nested Multi-Vector Iteration}
+survey_counts <- c(15, 24, 8, 42)
+species_specific_scaling_factors <- c(1.2, 0.8, 2.5, 1.1)
+
+purrr::map2_dbl(survey_counts,species_specific_scaling_factors, `*`)
+```
+
+Challenge 2: The Robust Data Wrangling Pipeline Function
+```{r C2 The Robust Data Wrangling Pipeline Function}
+#Create a custom function
+clean_and_classify_survey <- function(df, col_name, threshold_parameter){
+  #Safely check if the specified column name exists
+  if (!col_name %in% names(df)){
+    stop("Entered column ", col_name, " not found.")
+  }
+  #filter out NA values and mutate based on threshold
+  cleaned_df <- df %>%
+                  filter_out(is.na(!!sym(col_name))) %>%
+                          mutate(status_classification = case_when(
+                            col_name < threshold_parameter ~ "Fail",
+                            col_name >= threshold_parameter ~ "Pass"
+                          ))
+  return(cleaned_df)
+}
+
+#tests
+#1
+test1 <- tibble(Names = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J"),
+                Grade = c(56, 78, 42, 90, 87, 38, 67, 75, 2, 52))
+clean_and_classify_survey(test1, "Grade", 50)
+
+#2 (NA values)
+test2 <- tibble(Names = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J"),
+                Grade = c(56, 78, 42, 90, NA, 38, 67, 75, 2, NA))
+clean_and_classify_survey(test2, "Grade", 50)
 
 
+```
 
 
+```{r}
 
 
-
-
-
-
-
-
+```
 
