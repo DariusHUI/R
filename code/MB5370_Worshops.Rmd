@@ -674,8 +674,3 @@ clean_and_classify_survey(test2, "Grade", 50)
 ```
 
 
-```{r}
-
-
-```
-
