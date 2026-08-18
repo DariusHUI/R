@@ -160,16 +160,6 @@ library(tidyverse)
     # 5. PLot the species abundance of the species of you want 
 
 
-#----------------------------------------------#
-# Workshop 02. Visualisation ####
-
-# Move to rmd ####
-
-# Step 3.1.7
-#install.packages("knitr")
-
-
-# This workshop aims to develop and master our skills in data visualisation using ggplot2 ####
 
 
 
@@ -182,8 +172,8 @@ library(tidyverse)
 
 
 
-git --version
-git config
+
+
 
 
 

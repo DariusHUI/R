@@ -5,6 +5,21 @@ output: html_document
 date: "2026-05-20"
 ---
 
+# Introduction
+
+This code contains the work realised during the first module of MB5370.
+
+It is structured at follow:
+  - Workshop 1 - Foundations
+      Focus on the comprehension of key principles of R, including its ecosystem, syntax/scripts, packages, data types, data structures, R projects architecture, Qmd/Rmd and sourcing scripts.
+      * Note that the code related to this workshop is in a single chunk because it was firt written in an R script then transfered in this Rmd script.
+  - Workshop 2 - Visualisation
+      Focuss on the development of visuals to investigate datasets using ggplot, how to face troubleshooting, and optinmisations of visuals, including the integration of statistical details on plots.
+  - Workshop 4 - The Developer's Toolbox & AI
+      Learn how to use GitHub Copilot and conversational contexts (chattr) inside RStudio, as well as to build scalable, automated and error proff functions using functional iterations.
+
+# Setup
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -316,7 +331,7 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
   geom_smooth(data = filter(mpg, class == "subcompact"), se = FALSE)
 ```
 
-## Exercise
+### Exercise
 1.What geom would you use to draw a line chart? A boxplot? A histogram? An area chart?
   geom_line()
   geom_boxplot()
@@ -430,13 +445,13 @@ ggplot(data = mpg) +
 
 The Developer's Toolbox & AI
 
-# 4.4 chattr (Conversational Workspace Engine)
+## 4.4 chattr (Conversational Workspace Engine)
 
 ```{r chattr}
 #install.packages("ellmer")
 # install.packages("chattr")
 ```
-# Exercise: Prompting for Context
+### Exercise: Prompting for Context
 ```{r Exercise: Prompting for Context}
 library(ggplot2)
 
@@ -446,7 +461,7 @@ ggplot(iris, aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
   geom_point()
 ```
 
-# 4.3 Conditional Logic - filtering your data
+## 4.3 Conditional Logic - filtering your data
 
 Base R: if and else
 ```{r if_else}
@@ -520,7 +535,7 @@ marine_stations <- tibble(
 print(marine_stations)
 ```
 
-# 4.4 Automation — Iterating Efficiently
+## 4.4 Automation — Iterating Efficiently
 
 Base R: for-loops
 ```{r for-loops}
@@ -595,7 +610,7 @@ print("Mean counts (map_dbl):")
 print(mean_counts_map_dbl)
 ```
 
-# 4.5 Writing custom functions
+## 4.5 Writing custom functions
 
 Function Construction Blueprint
 ```{r}
@@ -631,7 +646,7 @@ convert_temp_c_to_f(temp_C = 25)
 convert_temp_c_to_f(temp_C = -300)
 ```
 
-# 4.6 Advanced Scripting Extension Challenges
+## 4.6 Advanced Scripting Extension Challenges
 
 Challenge 1: Nested Multi-Vector Iteration
 ```{r C1 Nested Multi-Vector Iteration}
