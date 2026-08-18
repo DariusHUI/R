@@ -3,20 +3,28 @@ title: "MB5370"
 author: "Darius HUISMAN"
 output: html_document
 date: "2026-05-20"
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 # Introduction
 
 This code contains the work realised during the first module of MB5370.
 
-It is structured at follow:
-  - Workshop 1 - Foundations
-      Focus on the comprehension of key principles of R, including its ecosystem, syntax/scripts, packages, data types, data structures, R projects architecture, Qmd/Rmd and sourcing scripts.
-      * Note that the code related to this workshop is in a single chunk because it was firt written in an R script then transfered in this Rmd script.
-  - Workshop 2 - Visualisation
-      Focuss on the development of visuals to investigate datasets using ggplot, how to face troubleshooting, and optinmisations of visuals, including the integration of statistical details on plots.
-  - Workshop 4 - The Developer's Toolbox & AI
-      Learn how to use GitHub Copilot and conversational contexts (chattr) inside RStudio, as well as to build scalable, automated and error proff functions using functional iterations.
+It is structured at follow: - Workshop 1 - Foundations Focus on the
+comprehension of key principles of R, including its ecosystem,
+syntax/scripts, packages, data types, data structures, R projects
+architecture, Qmd/Rmd and sourcing scripts. \* Note that the code
+related to this workshop is in a single chunk because it was firt
+written in an R script then transfered in this Rmd script. - Workshop
+2 - Visualisation Focuss on the development of visuals to investigate
+datasets using ggplot, how to face troubleshooting, and optinmisations
+of visuals, including the integration of statistical details on plots. -
+Workshop 4 - The Developer's Toolbox & AI Learn how to use GitHub
+Copilot and conversational contexts (chattr) inside RStudio, as well as
+to build scalable, automated and error proff functions using functional
+iterations.
 
 # Setup
 
@@ -26,10 +34,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Workshop 1
 
-```{r}
-source("../MB5370/MB5370_W1.R")
+```{r source}
+#source("../MB5370/MB5370_W1.R")
 ```
-
 
 ```{r Workshop 1}
 #----------------------------------------------#
@@ -160,7 +167,7 @@ x
 x[[2]]
 
 # Data frame and tibbles
-my_data_frame <- data_frame(no = c(1,2,3), name = c("Tracey", "John", "Pete"), "True or False" = c(TRUE, FALSE, TRUE))
+my_data_frame <- data.frame(no = c(1,2,3), name = c("Tracey", "John", "Pete"), "True or False" = c(TRUE, FALSE, TRUE))
 my_data_frame
 str (my_data_frame)
 
@@ -193,14 +200,15 @@ library(tidyverse)
     # 4. PLot the species abundance of the species of you want 
 ```
 
-
 # Workshop 2
-This workshop aims to develop and master our skills in data visualisation using ggplot2
+
+This workshop aims to develop and master our skills in data
+visualisation using ggplot2
 
 ## 2.16 Load packages and data
 
 ```{r Packages}
-install.packages("tidyverse")
+#install.packages("tidyverse")
 library(tidyverse)
 library(ggplot2)
 ```
@@ -217,6 +225,7 @@ ggplot(data = mpg) +
 ```
 
 ## 2.18 Understand the ‘grammar of graphics’
+
 ### 2.18.1 Graphing template
 
 ```{r Graphing template}
@@ -278,11 +287,15 @@ ggplot(data = mpg) +
   facet_grid(. ~ cyl)
 # it does not make a plot for each hwy (compared to previous plot)
 ```
-Read ?facet_wrap. What does nrow do? What does ncol do? What other options control the layout of the individual panels? 
+
+Read ?facet_wrap. What does nrow do? What does ncol do? What other
+options control the layout of the individual panels?
+
 ```{r}
 ?facet_wrap
 ```
-nrow, ncol	= number of rows and columns you want in the grid
+
+nrow, ncol = number of rows and columns you want in the grid
 
 ## 2.21 Fitting simple lines
 
@@ -332,22 +345,20 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
 ```
 
 ### Exercise
-1.What geom would you use to draw a line chart? A boxplot? A histogram? An area chart?
-  geom_line()
-  geom_boxplot()
-  geomp_histogram()
-  geom_area()
 
-2.Run this code in your head and predict what the output will look like. Then, run the code in R and check your predictions. Will these two graphs look different? Why/why not?
-ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
-  geom_point() + 
-  geom_smooth()
+1.What geom would you use to draw a line chart? A boxplot? A histogram?
+An area chart? geom_line() geom_boxplot() geomp_histogram() geom_area()
 
-ggplot() + 
-  geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) + 
-  geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))
+2.Run this code in your head and predict what the output will look like.
+Then, run the code in R and check your predictions. Will these two
+graphs look different? Why/why not? ggplot(data = mpg, mapping = aes(x =
+displ, y = hwy)) + geom_point() + geom_smooth()
 
-the two plots will provide with the same output. They will display the data with both points and smooth information at the smae time
+ggplot() + geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) +
+geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))
+
+the two plots will provide with the same output. They will display the
+data with both points and smooth information at the smae time
 
 ```{r Exercise}
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
@@ -440,7 +451,6 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
 ```
 
-
 # Workshop 4
 
 The Developer's Toolbox & AI
@@ -451,7 +461,9 @@ The Developer's Toolbox & AI
 #install.packages("ellmer")
 # install.packages("chattr")
 ```
+
 ### Exercise: Prompting for Context
+
 ```{r Exercise: Prompting for Context}
 library(ggplot2)
 
@@ -464,6 +476,7 @@ ggplot(iris, aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
 ## 4.3 Conditional Logic - filtering your data
 
 Base R: if and else
+
 ```{r if_else}
 # Simple Example: Checking Sea Surface Temperature (SST)
 sst <- 30.2
@@ -474,7 +487,6 @@ if (sst > 29.5) {
   print("SST remains within baseline parameters.")
 }
 ```
-
 
 Tidyverse Alternative: Vectorised Conditionals (dplyr)
 
@@ -495,14 +507,18 @@ coral_monitoring <- coral_monitoring %>%
   mutate(zone = if_else(depth_m > 30, "Deep Reef", "Shallow Reef"))
 ```
 
+what mutate() does? The mutate() function, from the dplyr package, is
+used to add new variables (columns) to a data frame or modify existing
+ones. It always operates on a data frame and returns a new data frame
+with the added or modified columns, while preserving existing columns.
 
-what mutate() does?
-  The mutate() function, from the dplyr package, is used to add new variables (columns) to a data frame or modify existing ones. It always   operates on a data frame and returns a new data frame with the added or modified columns, while preserving existing columns.
-
-what abou the  %>% symbol?
-  The %>% symbol is known as the pipe operator. It comes from the magrittr package, which is loaded as part of the tidyverse.
-  Its primary purpose is to pass the result of the expression on its left-hand side as the first argument to the function on its right-hand side. This allows you to chain multiple operations together in a more readable and sequential manner, making your code flow from left to right, rather than nesting functions inside each other.
-
+what abou the %\>% symbol? The %\>% symbol is known as the pipe
+operator. It comes from the magrittr package, which is loaded as part of
+the tidyverse. Its primary purpose is to pass the result of the
+expression on its left-hand side as the first argument to the function
+on its right-hand side. This allows you to chain multiple operations
+together in a more readable and sequential manner, making your code flow
+from left to right, rather than nesting functions inside each other.
 
 case_when()
 
@@ -517,6 +533,7 @@ coral_monitoring <- coral_monitoring %>%
 ```
 
 task
+
 ```{r task case_when}
 library(dplyr)
 
@@ -538,6 +555,7 @@ print(marine_stations)
 ## 4.4 Automation — Iterating Efficiently
 
 Base R: for-loops
+
 ```{r for-loops}
 # Classic loop anatomy
 for (year in 2020:2024) {
@@ -552,9 +570,10 @@ for (i in seq_along(transect_lengths)) {
 }
 ```
 
-Tidyverse Alternative: Functional Programming (purrr)
-  Comparison Example: Calculating Square Roots of Site Vectors
-  Using a standard for-loop:
+Tidyverse Alternative: Functional Programming (purrr) Comparison
+Example: Calculating Square Roots of Site Vectors Using a standard
+for-loop:
+
 ```{r std for-loop}
 site_areas <- c(144, 400, 625)
 results <- numeric(length(site_areas)) # Must build an empty container first
@@ -564,7 +583,8 @@ for(i in seq_along(site_areas)) {
 }
 ```
 
-  Using the purrr equivalent:
+Using the purrr equivalent:
+
 ```{r purr equivalent}
 library(purrr)
 # Map directly and define your expected output type explicitly
@@ -572,8 +592,8 @@ mapped_results <- map_dbl(site_areas, sqrt)
 
 ```
 
-
 Iterating Across Complex Groups
+
 ```{r iterate}
 # Iterate a summary function over split lists of data
 iris %>% 
@@ -581,7 +601,8 @@ iris %>%
   map(~summary(.x))
 ```
 
-Task using chattr: 
+Task using chattr:
+
 ```{r task purr}
 library(purrr) # For map_dbl()
 
@@ -613,6 +634,7 @@ print(mean_counts_map_dbl)
 ## 4.5 Writing custom functions
 
 Function Construction Blueprint
+
 ```{r}
 # Function Definition
 calculate_coral_mortality <- function(initial_count, surviving_count) {
@@ -631,6 +653,7 @@ calculate_coral_mortality(initial_count = 120, surviving_count = 84)
 ```
 
 Student Exercise 4: Custom Function Construction Task
+
 ```{r Ex custom fctn}
 #create a function to convert temperature in C° to F°
 convert_temp_c_to_f <- function(temp_C){
@@ -643,12 +666,13 @@ convert_temp_c_to_f <- function(temp_C){
 }
 #test function
 convert_temp_c_to_f(temp_C = 25)
-convert_temp_c_to_f(temp_C = -300)
+#convert_temp_c_to_f(temp_C = -300)
 ```
 
 ## 4.6 Advanced Scripting Extension Challenges
 
 Challenge 1: Nested Multi-Vector Iteration
+
 ```{r C1 Nested Multi-Vector Iteration}
 survey_counts <- c(15, 24, 8, 42)
 species_specific_scaling_factors <- c(1.2, 0.8, 2.5, 1.1)
@@ -657,6 +681,7 @@ purrr::map2_dbl(survey_counts,species_specific_scaling_factors, `*`)
 ```
 
 Challenge 2: The Robust Data Wrangling Pipeline Function
+
 ```{r C2 The Robust Data Wrangling Pipeline Function}
 #Create a custom function
 clean_and_classify_survey <- function(df, col_name, threshold_parameter){
@@ -687,5 +712,3 @@ clean_and_classify_survey(test2, "Grade", 50)
 
 
 ```
-
-
